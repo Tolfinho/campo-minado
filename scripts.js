@@ -1,7 +1,7 @@
 const MAX_ROW = 9;
 const MAX_COL = 9;
-
 const BOMB = "*";
+const boardEl = document.getElementById("board");
 /*
 =========
 BOARD
@@ -138,7 +138,30 @@ function isOnBoard(row, col) {
 }
 
 function setDOM() {
-    const boardEl = document.getElementById("board");
+
+    for(var i=0; i<MAX_ROW; i++) {
+        for(var j=0; j<MAX_COL; j++) {
+            const square = document.createElement("div");
+            square.classList.add("square");
+
+            // Adiciona evento click no square
+            square.addEventListener("click", (event) => {
+                onClickSquare(i, j);
+            })
+
+            boardEl.appendChild(square);
+        }
+    }
+}
+
+function onClickSquare(row, col) {
+    var squaresEl = boardEl.children;
+
+    console.log(squaresEl)
+}
+
+// Esse método renderiza o DOM mostrando já como está cada posição do Array, apenas para debug
+function setDOM_Debug() {
 
     for(var i=0; i<MAX_ROW; i++) {
         for(var j=0; j<MAX_COL; j++) {
@@ -155,5 +178,3 @@ function setDOM() {
         }
     }
 }
-
-console.log("commit teste")
