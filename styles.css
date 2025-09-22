@@ -22,12 +22,19 @@
 #board .square {
     width: 40px;
     height: 40px;
-    background: #dfdfdf;
+    background: #909090;
     border: 1px solid #000;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    color: blue;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+#board .square.selected {
+    background: #d4d4d4;
 }
 
 #board .square:hover {

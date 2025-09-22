@@ -142,11 +142,14 @@ function setDOM() {
     for(var i=0; i<MAX_ROW; i++) {
         for(var j=0; j<MAX_COL; j++) {
             const square = document.createElement("div");
+            const row = i;
+            const col = j;
+
             square.classList.add("square");
 
             // Adiciona evento click no square
             square.addEventListener("click", (event) => {
-                onClickSquare(i, j);
+                onClickSquare(row, col);
             })
 
             boardEl.appendChild(square);
@@ -155,9 +158,53 @@ function setDOM() {
 }
 
 function onClickSquare(row, col) {
-    var squaresEl = boardEl.children;
+    var squaresEl = Array.from(boardEl.children);
+    var index = (row * MAX_COL) + col;
+    
+    var innerHTML = "";
+    var color = "";
 
-    console.log(squaresEl)
+    switch(board[row][col]) {
+        case "1":
+            innerHTML = "1";
+            color = "#1212ec"
+            break;
+        case "2":
+            innerHTML = "2";
+            color = "#109e10"
+            break;
+        case "3":
+            innerHTML = "3";
+            color = "#df0d0d"
+            break;
+        case "4":
+            innerHTML = "4";
+            color = "#58057977"
+            break;
+        case "5":
+            innerHTML = "5";
+            color = "#415d88ff"
+            break;
+        case "6":
+            innerHTML = "6";
+            color = "#030335ff"
+            break;
+        case "7":
+            innerHTML = "7";
+            color = "#152519ff"
+            break;
+        case "8":
+            innerHTML = "8";
+            color = "#3f2d1eff"
+            break;
+        case "*":
+            innerHTML = "💣"
+            break;
+    }
+
+    squaresEl[index].innerHTML = innerHTML;
+    squaresEl[index].classList.add("selected");
+    squaresEl[index].style.color = color;
 }
 
 // Esse método renderiza o DOM mostrando já como está cada posição do Array, apenas para debug
