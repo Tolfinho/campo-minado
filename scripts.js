@@ -158,6 +158,134 @@ function setDOM() {
 }
 
 function onClickSquare(row, col) {
+    if(board[row][col] == "0")
+        openGap(row, col);
+    else if(board[row][col] == "*")
+        openBombs(row, col);
+    else
+        setSquareValues(row, col);
+}
+
+// Esse método renderiza o DOM mostrando já como está cada posição do Array, apenas para debug
+function setDOM_Debug() {
+
+    for(var i=0; i<MAX_ROW; i++) {
+        for(var j=0; j<MAX_COL; j++) {
+            const square = document.createElement("div");
+            square.classList.add("square");
+
+            if(board[i][j] == BOMB)
+                square.classList.add("bomb");
+
+            if(board[i][j] != "0")
+                square.innerHTML = board[i][j];
+
+            boardEl.appendChild(square);
+        }
+    }
+}
+
+function openGap(row, col) {
+    var squaresEl = Array.from(boardEl.children);
+    var index = (row * MAX_COL) + col;
+
+    // Set gap
+    if(board[row][col] == "0") {
+        squaresEl[index].classList.add("selected");
+    }
+
+    // Varifica cada lado do square atual
+    // Caso a próxima posição seja um número, libera e depois para
+    // Caso seja um espaço em branco, libera
+
+    if(isValidPosition(row-1, col)) {
+
+        if(board[row-1][col] == "0") {
+            openGap(row-1, col);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row-1][col])) {
+            setSquareValues(row-1, col);
+        }
+
+    }
+    
+    if(isValidPosition(row-1, col+1)) {
+
+        if(board[row-1][col+1] == "0") {
+            openGap(row-1, col+1);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row-1][col+1])) {
+            setSquareValues(row-1, col+1);
+        }
+
+    }
+    
+    if(isValidPosition(row, col+1)) {
+
+        if(board[row][col+1] == "0") {
+            openGap(row, col+1);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row][col+1])) {
+            setSquareValues(row, col+1);
+        }
+
+    }
+
+    if(isValidPosition(row+1, col+1)) {
+
+        if(board[row+1][col+1] == "0") {
+            openGap(row+1, col+1);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row+1][col+1])) {
+            setSquareValues(row+1, col+1);
+        }
+
+    }
+    
+    if(isValidPosition(row+1, col)) {
+
+        if(board[row+1][col] == "0") {
+            openGap(row+1, col);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row+1][col])) {
+            setSquareValues(row+1, col);
+        }
+
+    }
+    
+    if(isValidPosition(row+1, col-1)) {
+
+        if(board[row+1][col-1] == "0") {
+            openGap(row+1, col-1);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row+1][col-1])) {
+            setSquareValues(row+1, col-1);
+        }
+
+    }
+    
+    if(isValidPosition(row, col-1)) {
+
+        if(board[row][col-1] == "0") {
+            openGap(row, col-1);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row][col-1])) {
+            setSquareValues(row, col-1);
+        }
+
+    }
+    
+    if(isValidPosition(row-1, col-1)) {
+
+        if(board[row-1][col-1] == "0") {
+            openGap(row-1, col-1);
+        } else if(["1", "2", "3", "4", "5", "6", "7", "8"].includes(board[row-1][col-1])) {
+            setSquareValues(row-1, col-1);
+        }
+
+    }
+
+    
+}
+
+function openBombs(row, col) {
+    console.log("Voce perdeu, mostrar bombas")
+}
+
+function setSquareValues(row, col) {
     var squaresEl = Array.from(boardEl.children);
     var index = (row * MAX_COL) + col;
     
@@ -207,21 +335,8 @@ function onClickSquare(row, col) {
     squaresEl[index].style.color = color;
 }
 
-// Esse método renderiza o DOM mostrando já como está cada posição do Array, apenas para debug
-function setDOM_Debug() {
-
-    for(var i=0; i<MAX_ROW; i++) {
-        for(var j=0; j<MAX_COL; j++) {
-            const square = document.createElement("div");
-            square.classList.add("square");
-
-            if(board[i][j] == BOMB)
-                square.classList.add("bomb");
-
-            if(board[i][j] != "0")
-                square.innerHTML = board[i][j];
-
-            boardEl.appendChild(square);
-        }
-    }
+function isValidPosition(row, col) {
+    return board.length > 0 && board[0].length > 0
+            && (row >= 0 && row <= board.length-1
+                && col >= 0 && col <= board[0].length-1)
 }
